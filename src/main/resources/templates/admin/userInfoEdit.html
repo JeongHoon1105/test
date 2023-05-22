@@ -1,0 +1,122 @@
+<div th:replace="admin/fragments/header :: header"></div>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+	<div
+		class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+		<h1 class="h2">회원정보</h1>
+		<div class="btn-group mb-2 mb-md-0"></div>
+	</div>
+	<div class="userinfo row">
+		<div class="col-xl-4">
+			<div class="card mb-4 mb-xl-0">
+				<div class="card-header">회원 프로필</div>
+				<div class="card-body text-center">
+					<img id="user-avatar" class="img-account-profile rounded-circle mb-2"
+						src="http://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+					<blockquote class="blockquote">
+						<p id="username">홍길동</p>
+					</blockquote>
+					<div class="d-md-block">
+						<a type="button" id="user-self-info-link" class="btn btn-outline-primary btn-sm"
+							href="/admin/userprofile-edit">
+							<i class="bi bi-pencil-square"></i>&nbsp;회원 프로필 수정
+						</a>
+					</div>
+					<hr>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="inputGroupSelect01"><i
+							class="bi bi-calendar3"></i>&nbsp;업무 접수</label>
+					   <select
+							class="form-select" id="inputGroupSelect01">
+							<option selected>업무 상황</option>
+							<option value="1">가능</option>
+							<option value="2">바쁨</option>
+							<option value="3">내용에 따라</option>
+						</select>
+					</div>
+					<div class="input-group">
+						<span class="input-group-text"><i class="bi bi-clock"></i>&nbsp;업무
+							시간</span> <input id="working-time" type="text" aria-label="First name"
+							class="form-control padding6" value="09:00 ~ 18:00">
+					</div>
+					<hr>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-8">
+			<div class="card mb-4 mb-xl-0">
+				<div class="card-header">기본정보 수정</div>
+				<div class="card-body">
+					<form id="updateUserBasicInfo">
+						<div class="form-floating mb-3">
+							<input type="email" name="email" class="form-control" id="register-email"
+								placeholder=""> <label for="floatingInput">Email</label>
+							<div class="form-check">
+								<input name="emailConfim" class="form-check-input" type="checkbox" 
+									id="emailConfim"> <label class="form-check-label"
+									for="flexCheckChecked"> Email 확인 </label>
+							</div>
+							<button type="button"
+								class="btn btn-outline-warning btn-sm margintop"
+								onclick="checkEmailDuplicate()">Email가능 확인</button>
+						</div>
+						<div class="form-floating mb-3">
+							<input type="password" name="password" class="form-control" id="password"
+								placeholder="" > <label for="floatingInput">비밀번호</label>
+						</div>
+						<div class="form-floating mb-3">
+							<input type="password" name="passwordCheck" class="form-control" id="passwordCheck"
+								placeholder="" > <label for="floatingInput">비밀번호
+								확인</label>
+						</div>
+						<div class="form-floating mb-3">
+							<input type="text" name="phone" class="form-control" id="phone"
+								placeholder="" > <label for="floatingInput">전화번호</label>
+						</div>
+						<div class="form-floating mb-3">
+							<input type="date" name="birth" id="birth" class="form-control"
+								placeholder="Leave a comment here" > <label
+								for="floatingInput">생년월일</label>
+						</div>
+						<div class="btn-group userbottom" role="group"
+							aria-label="Basic radio toggle button group">
+							<input type="radio" class="btn-check"
+								id="gender_male" name="gender_male" autocomplete="off"> <label
+								class="btn btn-outline-primary" for="btnradio1">남성</label> <input
+								type="radio" class="btn-check" name="gender_female" id="gender_female"
+								autocomplete="off"> <label
+								class="btn btn-outline-primary" for="btnradio2">여성</label>
+						</div>
+						<div class="form-floating mb-3">
+							<input type="text" name="address" class="form-control" id="address"
+								placeholder="" > <label for="floatingInput">주소</label>
+						</div>
+						<div class="userbottom">
+							<div class="marginbottom">
+								<i class="bi bi-journal-check"></i> 등록목적
+							</div>
+							<div class="form-check form-switch form-check-inline">
+								<input class="form-check-input" name="role_user" type="checkbox" role="switch"
+									id="role_user"> <label class="form-check-label" for="user">구입</label>
+							</div>
+							<div class="form-check form-switch form-check-inline">
+								<input class="form-check-input" name="role_seller" type="checkbox" role="switch"
+									id="role_seller"> <label class="form-check-label"
+									for="seller">출품</label>
+							</div>
+							<div class="form-check form-switch form-check-inline">
+								<input class="form-check-input" name="role_admin" type="checkbox" role="switch"
+									id="role_admin"> <label class="form-check-label" for="admin">관리자</label>
+							</div>
+						</div>
+						<div class="userinfo" align="right">
+							<button type="reset" class="btn btn-outline-secondary">리셋</button>
+							<button type="button" class="btn btn-outline-primary" onclick="userUpdate()">수정</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+<div th:replace="admin/fragments/footer :: footer"></div>
+<script type="text/javascript" th:src="@{/js/admin/user-update-basic-render.js}"></script>

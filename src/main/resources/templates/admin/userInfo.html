@@ -1,0 +1,758 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="admin/fragments/header :: header"></div>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">회원정보</h1>
+        <div class="btn-group mb-2 mb-md-0"></div>
+    </div>
+    <div class="userinfo row">
+        <div class="col-xl-4">
+            <div class="card mb-4 mb-xl-0">
+                <div class="card-header">회원 프로필</div>
+                <div class="card-body text-center">
+                    <img class="img-account-profile rounded-circle mb-2" src="http://bootdey.com/img/Content/avatar/avatar7.png" id="user-avatar" alt="">
+                    <blockquote class="blockquote">
+                        <p id="username">홍길동</p>
+                    </blockquote>
+                    <div class="d-md-block">
+                        <a type="button" id="user-profile-edit" class="btn btn-outline-primary btn-sm" href="/admin/userprofile-edit">
+                            <i class="bi bi-pencil-square"></i>&nbsp;회원 프로필 수정
+                        </a>
+                    </div>
+                    <hr>
+                    <div th:if="${isSeller}" class="input-group mb-3">
+                        <label class="input-group-text"><i class="bi bi-calendar3"></i>&nbsp;업무 접수</label>
+                        <p class="form-control form-control-bottom" id="user-status"></p>
+                    </div>
+                    <div th:if="${isSeller}" class="input-group">
+                        <span class="input-group-text"><i class="bi bi-clock"></i>&nbsp;업무 시간</span>
+                        <p class="form-control form-control-bottom" id="user-schedule"></p>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-8">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-baseinfo-tab" data-bs-toggle="tab" data-bs-target="#nav-baseinfo" type="button" role="tab" aria-controls="nav-baseinfo" aria-selected="true">정보</button>
+                    <button th:if="${isSeller}" class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">소개</button>
+                    <button th:if="${isSeller}" class="nav-link" id="nav-skill-tab" data-bs-toggle="tab" data-bs-target="#nav-skill" type="button" role="tab" aria-controls="nav-skill" aria-selected="false">기술</button>
+                    <button th:if="${isSeller}" class="nav-link" id="nav-career-tab" data-bs-toggle="tab" data-bs-target="#nav-career" type="button" role="tab" aria-controls="nav-career" aria-selected="false">경력</button>
+                    <button th:if="${isSeller}" class="nav-link" id="nav-portfolio-tab" data-bs-toggle="tab" data-bs-target="#nav-portfolio" type="button" role="tab" aria-controls="nav-portfolio" aria-selected="false">포트폴리오</button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-baseinfo" role="tabpanel" aria-labelledby="nav-baseinfo-tab" tabindex="0">
+                    <div class="card mb-4 userinfo">
+                        <div class="card-body">
+                            <form>
+                                <div class="form-floating mb-3">
+                                    <p type="text" class="form-control" id="user-role"></p>
+                                    <label for="user-role">유형</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <p type="email" class="form-control" id="user-email"></p>
+                                    <label for="user-email">Email</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input checkbox-disabled" type="checkbox" value="" id="user-emailcon" disabled>
+                                        <label class="form-check-label checklabel-disabled" for="user-emailcon">
+                                            Email 확인
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <p type="text" class="form-control" id="user-birth"></p>
+                                    <label for="user-birth">생년월일</label>
+                                </div>
+                                <div class="btn-group userbottom" role="group" aria-label="Basic radio toggle button group">
+                                    <input type="radio" class="btn-check" name="btnradio" id="user-male" disabled>
+                                    <label class="btn btn-outline-primary checklabel-disabled" for="user-male">남성</label>
+                                    <input type="radio" class="btn-check" name="btnradio" id="user-female" disabled>
+                                    <label class="btn btn-outline-primary checklabel-disabled" for="user-female">여성</label>
+                                </div>
+                                <div class="form-floating">
+                                    <p class="form-control textarea-height" id="user-address"></p>
+                                    <label for="user-address">주소</label>
+                                </div>
+                                <div class="d-md-block" align="center">
+                                    <a type="button" id="user-info-edit" class="btn btn-outline-primary btn-sm" href="/admin/userinfo-edit">
+                                        <i class="bi bi-pencil-square"></i>&nbsp;기본정보 수정
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                    <div class="card mb-4 userinfo">
+                        <div class="card-body">
+                            <form>
+                                <div class="form-floating">
+                                    <p class="form-control textarea-height" id="user-phrase"></p>
+                                    <label for="user-phrase">캐치프레이즈</label>
+                                </div>
+                                <hr>
+                                <div class="form-floating">
+                                    <p class="form-control textarea-height" id="user-intro"></p>
+                                    <label for="user-intro">자기소개</label>
+                                </div>
+                                <div class="d-md-block" align="center">
+                                    <a type="button" id="user-intro-edit" class="btn btn-outline-primary btn-sm" href="/admin/userprofile-edit">
+                                        <i class="bi bi-pencil-square"></i>&nbsp;자기소개 수정
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${isSeller}" class="tab-pane fade" id="nav-skill" role="tabpanel" aria-labelledby="nav-skill-tab" tabindex="0">
+                    <!-- 전문분야 시작 -------------------------------------------------------------------------------------------------------------------------------------->
+                    <div id="specialtyList" class="card mb-4 userinfo" style="display: none;">
+                    </div>
+                    <div id="specialtyInfo" style="display: none;">
+                        <div class="card-body">
+                            <div class="userbottom">
+                                <p class="fs-5 fw-medium specialty-category"></p>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-9">
+                                    <div class="form-floating">
+                                        <p class="form-control form-control-bottom specialty-description"></p>
+                                        <label for="floatingInput">고객분야 상세</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <p class="form-control form-control-bottom specialty-minPrice"></p>
+                                        <label for="floatingInput">최저 요금</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-floating">
+                                <p class="form-control form-control-bottom textarea-height userinfo specialty-detail"></p>
+                                <label for="floatingTextarea">보충설명</label>
+                            </div>
+                            <div class="userinfo" align="right">
+                                <button type="button" class="btn btn-outline-success btn-sm" onclick="edit_specialty(this)">
+                                    <i class="bi bi-pencil-square"></i>&nbsp;편집하기
+                                    <p class="specialty-id" hidden="true"></p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="specialtyEdit" style="display:none">
+                        <div class="card-body">
+                            <form>
+                                <div class="userbottom">
+                                    <select class="form-select select_height specialty-category-edit" aria-label="Default select exampl">
+                                        <option selected>전문분야</option>
+                                        <option value="1">디자이너</option>
+                                        <option value="2">웹개발</option>
+                                        <option value="3">웹사이트제작</option>
+                                    </select>
+                                </div>
+                                <div class="row g-3">
+                                    <div class="col-md-9">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control specialty-description-edit" id="floatingInput" placeholder="" value="">
+                                            <label for="floatingInput">고객분야 상세</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div>
+                                            <select class="form-select select_height specialty-minPrice-edit">
+                                                <option selected>최저요금(원)</option>
+                                                <option value="1">5000</option>
+                                                <option value="2">10000</option>
+                                                <option value="3">15000</option>
+                                                <option value="4">20000</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-floating">
+                                    <textarea class="form-control userinfo textarea-height specialty-detail-edit" id="floatingTextarea"></textarea>
+                                    <label for="floatingTextarea">보충설명</label>
+                                </div>
+                                <div class="userinfo" align="right">
+                                    <button type="button" class="btn btn-outline-danger btn-sm">삭제</button>
+                                    <input type="button" class="btn btn-outline-secondary btn-sm specialtyCancel" value="취소">
+                                    <button type="button" class="btn btn-outline-primary btn-sm">업데이트</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="specialtyParent">
+                    </div>
+                    <div id="specialtyAdd" style="display:none">
+                        <div class="card-body">
+                            <form>
+                            <div class="userbottom">
+                                <select class="form-select select_height" aria-label="Default select exampl">
+                                    <option selected>전문분야</option>
+                                    <option value="1">디자이너</option>
+                                    <option value="2">웹개발</option>
+                                    <option value="3">웹사이트제작</option>
+                                </select>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-9">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="floatingInput" placeholder="" value="">
+                                        <label for="floatingInput">고객분야 상세</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div>
+                                        <select class="form-select select_height" aria-label="Default select exampl">
+                                            <option selected>최저요금(원)</option>
+                                            <option value="1">5000</option>
+                                            <option value="2">10000</option>
+                                            <option value="3">15000</option>
+                                            <option value="3">20000</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-floating">
+                                <textarea class="form-control specialty-detail-edit userinfo textarea-height" placeholder="" id="floatingTextarea"></textarea>
+                                <label for="floatingTextarea">보충설명</label>
+                            </div>
+                            <div class="userinfo" align="right">
+                                <input type="button" class="btn btn-outline-secondary" value="취소" onclick="remove_specialty(this)">
+                                <button type="button" class="btn btn-outline-primary">등록</button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="mb-4 userinfo" id="btn-specialtyAdd">
+                        <div align="center">
+                            <button  type="button" class="btn btn-outline-primary btn-sm" onclick="add_specialty()"><i class="bi bi-clipboard-plus"></i> 전문분야 추가</button>
+                        </div>
+                    </div>
+                    <!-- 보유기술 시작 -------------------------------------------------------------------------------------------------------------------------------------->
+                    <div id="skillList" class="card mb-4 userinfo" style="display: none;">
+                    </div>
+                    <div id="skillInfo" style="display: none;">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-9">
+                                    <div class="form-floating">
+                                        <p class="form-control form-control-bottom skill-title"></p>
+                                        <label for="floatingInput">보유기술</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <p class="form-control form-control-bottom skill-experience"></p>
+                                        <label for="floatingInput">경력기간</label>
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="progress userinfo">
+                                <div class="progress-bar progress-bar-striped skill-level" role="progressbar" aria-label="Example with label" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="form-floating userinfo">
+                                <p class="form-control form-control-bottom textarea-height skill-detail"></p>
+                                <label for="floatingTextarea">기술상세</label>
+                            </div>
+                            <div class="userinfo" align="right">
+                                <button type="button" class="btn btn-outline-success btn-sm" onclick="edit_skill(this)">
+                                    <i class="bi bi-pencil-square"></i>&nbsp;편집하기
+                                    <p class="skill-id" hidden="true"></p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="skillEdit" style="display:none">
+                        <div class="card-body">
+                            <form>
+                                <div class="row g-3">
+                                    <div class="col-md-9">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control skill-title-edit">
+                                            <label for="floatingInput">보유기술</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div>
+                                            <select class="form-select select_height skill-experience-edit">
+                                                <option selected>경력기간(년)</option>
+                                                <option value="1">1</option>
+                                                <option value="2">3</option>
+                                                <option value="3">5</option>
+                                                <option value="4">7</option>
+                                                <option value="5">10</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="customRange3" class="form-label"><i class="bi bi-person-video2"></i> 기술레벨</label>
+                                    <input type="range" class="form-range skill-level-edit" min="1" max="5" step="1" id="customRange3">
+                                </div>
+                                <div class="form-floating userinfo">
+                                    <textarea class="form-control userinfo textarea-height skill-detail-edit" placeholder="" id="floatingTextarea"></textarea>
+                                    <label for="floatingTextarea">기술상세</label>
+                                </div>
+                                <div class="userinfo" align="right">
+                                    <button type="button" class="btn btn-outline-danger btn-sm">삭제</button>
+                                    <input type="button" class="btn btn-outline-secondary btn-sm skillCancel" value="취소">
+                                    <button type="button" class="btn btn-outline-primary btn-sm">업데이트</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="skillParent">
+                    </div>
+                    <div id="skillAdd" style="display:none">
+                        <div class="card-body">
+                            <form>
+                                <div class="row g-3">
+                                    <div class="col-md-9">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="floatingInput">
+                                            <label for="floatingInput">보유기술</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div>
+                                            <select class="form-select select_height">
+                                                <option selected>경력기간(년)</option>
+                                                <option value="1">1</option>
+                                                <option value="2">3</option>
+                                                <option value="3">5</option>
+                                                <option value="4">7</option>
+                                                <option value="5">10</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="customRange3" class="form-label"><i class="bi bi-person-video2"></i> 기술레벨</label>
+                                    <input type="range" class="form-range" min="1" max="5" step="1" id="customRange3">
+                                </div>
+                                <div class="form-floating userinfo">
+                                    <textarea class="form-control" placeholder="" id="floatingTextarea"></textarea>
+                                    <label for="floatingTextarea">기술상세</label>
+                                </div>
+                                <div class="userinfo" align="right">
+                                    <input type="button" class="btn btn-outline-secondary" value="취소" onclick="remove_skill(this)">
+                                    <button type="button" class="btn btn-outline-primary">등록</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="mb-4 userinfo" id="btn-skillAdd">
+                        <div class="card-body" align="center">
+                            <button  type="button" class="btn btn-outline-primary btn-sm" onclick="add_skill()"><i class="bi bi-clipboard-plus"></i> 기술 추가</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-career" role="tabpanel" aria-labelledby="nav-career-tab" tabindex="0">
+                    <!-- 경력 시작 -------------------------------------------------------------------------------------------------------------------------------------->
+                    <div id="carrerList" class="card mb-4 userinfo" style="display: none;">
+                    </div>    
+                    <div id="carrerInfo" style="display: none;">
+                        <div class="card-body">
+                            <div class="form-floating">
+                                <p class="form-control form-control-bottom carrer-name"></p>
+                                <label for="floatingInput">회사/산업/학교</label>
+                            </div>
+                            <div class="form-floating userinfo userbottom">
+                                <p class="form-control form-control-bottom carrer-position"></p>
+                                <label for="floatingInput">직종/직무/학과</label>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <p class="form-control form-control-bottom carrer-startDate"></p>
+                                        <label for="floatingInput">경력기간 시작</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <p class="form-control form-control-bottom carrer-finishDate"></p>
+                                        <label for="floatingInput">경력기간 종료</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-floating userinfo">
+                                <p class="form-control form-control-bottom textarea-height userinfo carrer-detail"></p>
+                                <label for="floatingTextarea">경력상세</label>
+                            </div>
+                            <div class="userinfo" align="right">
+                                <button type="button" class="btn btn-outline-success btn-sm" onclick="edit_carrer(this)">
+                                    <i class="bi bi-pencil-square"></i>&nbsp;편집하기
+                                    <p class="carrer-id" hidden="true"></p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="carrerEdit" style="display:none">
+                        <div class="card-body">
+                            <form>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control carrer-name-edit" id="floatingInput">
+                                    <label for="floatingInput">회사/산업/학교</label>
+                                </div>
+                                <div class="form-floating mb-3 userinfo">
+                                    <input type="text" class="form-control carrer-position-edit">
+                                    <label for="floatingInput">직종/직무/학과</label>
+                                </div>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="date" name="" class="form-control carrer-startDate-edit" placeholder="" value="">
+                                            <label for="floatingInput">경력기간 시작</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="date" name="" class="form-control carrer-finishDate-edit" placeholder="" value="">
+                                            <label for="floatingInput">경력기간 종료</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-floating userinfo">
+                                    <textarea class="form-control carrer-detail-edit"></textarea>
+                                    <label for="floatingTextarea">경력상세</label>
+                                </div>
+                                <div class="userinfo" align="right">
+                                    <button type="button" class="btn btn-outline-danger btn-sm">삭제</button>
+                                    <input type="button" class="btn btn-outline-secondary btn-sm carrerCancel" value="취소">
+                                    <button type="button" class="btn btn-outline-primary btn-sm">업데이트</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="careerParent">
+                    </div>
+                    <div id="careerAdd" style="display:none">
+                        <div class="card-body">
+                            <form>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingInput" placeholder="" value="">
+                                    <label for="floatingInput">회사/산업/학교</label>
+                                </div>
+                                <div class="form-floating mb-3 userinfo">
+                                    <input type="text" class="form-control" placeholder="" value="">
+                                    <label for="floatingInput">직종/직무/학과</label>
+                                </div>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="date" name="" class="form-control" placeholder="" value="">
+                                            <label for="floatingInput">경력기간 시작</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="date" name="" class="form-control" placeholder="" value="">
+                                            <label for="floatingInput">경력기간 종료</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-floating userinfo">
+                                    <textarea class="form-control" placeholder="" id="floatingTextarea"></textarea>
+                                    <label for="floatingTextarea">경력상세</label>
+                                </div>
+                                <div class="userinfo" align="right">
+                                    <input type="button" class="btn btn-outline-secondary" value="취소" onclick="remove_career(this)">
+                                    <button type="button" class="btn btn-outline-primary">등록</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="mb-4 userinfo" id="btn-careerAdd">
+                        <div class="card-body" align="center">
+                            <button  type="button" class="btn btn-outline-primary btn-sm" onclick="add_carrer()"><i class="bi bi-clipboard-plus"></i> 경력 추가</button>
+                        </div>
+                    </div>
+                    <!-- 자격증 시작 -------------------------------------------------------------------------------------------------------------------------------------->
+                    <div id="licenseList" class="card mb-4 userinfo" style="display: none;">
+                    </div>
+                    <div id="licenseInfo" style="display: none;">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-9">
+                                    <div class="form-floating">
+                                        <p class="form-control form-control-bottom license-name"></p>
+                                        <label for="floatingInput">자격증</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <p class="form-control form-control-bottom license-date"></p>
+                                        <label for="floatingInput">취득날짜</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="userinfo" align="right">
+                                <button type="button" class="btn btn-outline-success btn-sm" onclick="edit_license(this)">
+                                    <i class="bi bi-pencil-square"></i>&nbsp;편집하기
+                                    <p class="license-id" hidden="true"></p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="licenseEdit" style="display:none">
+                        <div class="card-body">
+                            <form>
+                                <div class="row g-3">
+                                    <div class="col-md-9">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control license-name-edit">
+                                            <label for="floatingInput">자격증</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="date" name="" class="form-control license-date-edit">
+                                            <label for="floatingInput">취득날짜</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="userinfo" align="right">
+                                    <button type="button" class="btn btn-outline-danger btn-sm">삭제</button>
+                                    <input type="button" class="btn btn-outline-secondary btn-sm licenseCancel" value="취소">
+                                    <button type="button" class="btn btn-outline-primary btn-sm">업데이트</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="licenseParent">
+                    </div>
+                    <div id="licenseAdd" style="display:none">
+                        <div class="card-body">
+                            <form>
+                                <div class="row g-3">
+                                    <div class="col-md-9">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="floatingInput" placeholder="" value="">
+                                            <label for="floatingInput">자격증</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="date" name="" class="form-control" placeholder="" value="">
+                                            <label for="floatingInput">취득날짜</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="userinfo" align="right">
+                                    <input type="button" class="btn btn-outline-secondary" value="취소" onclick="remove_license(this)">
+                                    <button type="button" class="btn btn-outline-primary">등록</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="mb-4 userinfo" id="btn-licenseAdd">
+                        <div class="card-body" align="center">
+                            <button  type="button" class="btn btn-outline-primary btn-sm" onclick="add_license()"><i class="bi bi-clipboard-plus"></i> 자격증 추가</button>
+                        </div>
+                    </div>
+                    <!-- 수상경력 시작 -------------------------------------------------------------------------------------------------------------------------------------->
+                    <div id="awardList" class="card mb-4 userinfo" style="display: none;">
+                    </div>
+                    <div id="awardInfo" style="display: none;">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <p class="form-control form-control-bottom award-category"></p>
+                                        <label for="floatingInput">카테고리</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <p class="form-control form-control-bottom award-title"></p>
+                                        <label for="floatingInput">수상제목</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <p class="form-control form-control-bottom award-date"></p>
+                                        <label for="floatingInput">날짜</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="userinfo" align="right">
+                                <button type="button" class="btn btn-outline-success btn-sm" onclick="edit_award(this)">
+                                    <i class="bi bi-pencil-square"></i>&nbsp;편집하기
+                                    <p class="award-id" hidden="true"></p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="awardEdit" style="display:none">
+                        <div class="card-body">
+                            <form>
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <div>
+                                            <select class="form-select select_height award-category-edit">
+                                                <option selected>카테고리</option>
+                                                <<option value="AWARDS">수상</option>
+                                                <option value="WRITING">쓰기</option>
+                                                <option value="LECTURE">강연</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control award-title-edit">
+                                            <label for="floatingInput">수상제목</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="date" name="" class="form-control award-date-edit">
+                                            <label for="floatingInput">날짜</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="userinfo" align="right">
+                                    <button type="button" class="btn btn-outline-danger btn-sm">삭제</button>
+                                    <input type="button" class="btn btn-outline-secondary btn-sm awardCancel" value="취소">
+                                    <button type="button" class="btn btn-outline-primary btn-sm">업데이트</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="awardParent">
+                    </div>
+                    <div id="awardAdd" style="display:none">
+                        <div class="card-body">
+                            <form>
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <div>
+                                            <select class="form-select select_height award-category-edit">
+                                                <option selected>카테고리</option>
+                                                <option value="1">수상</option>
+                                                <option value="2">쓰기</option>
+                                                <option value="3">강연</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="floatingInput" placeholder="" value="">
+                                            <label for="floatingInput">수상제목, 책제목, 강연이름 등</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="date" name="" class="form-control" placeholder="" value="">
+                                            <label for="floatingInput">날짜</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="userinfo" align="right">
+                                    <input type="button" class="btn btn-outline-secondary" value="취소" onclick="remove_award(this)">
+                                    <button type="button" class="btn btn-outline-primary">등록</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="mb-4 userinfo" id="btn-awardAdd">
+                        <div class="card-body" align="center">
+                            <button  type="button" class="btn btn-outline-primary btn-sm" onclick="add_award()"><i class="bi bi-clipboard-plus"></i> 수상/쓰기/강연 추가</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-portfolio" role="tabpanel" aria-labelledby="nav-portfolio-tab" tabindex="0">
+                    <div id="portfolioThumb" style="display:none">
+                        <div class="card card_body m-2 p-2 float-start" style="width:47%;">
+                            <form>
+                                <div style="display:none">
+                                    <p class="portfolio_id"></p>
+                                </div>
+                                <div class="mb-2">
+                                    <img class="w-100 thumb" style="height:15rem" src="" alt="">
+                                </div>
+                                <div style="text-align:right">
+                                    <button type="button" class="btn btn-outline-success" onclick="detail_portfolio(this)">편집</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="sellerPortfolio" style="display:none">
+                        <div class="card mb-4 userinfo">
+                            <div class="card-body">
+                                <form>
+                                    <div class="form-floating mb-3">
+                                        <div>
+                                            <div>
+                                                <button type="button" class="btn portImageBtn">Image</button>
+                                                <button type="button" class="btn portYoutubeBtn">Youtube</button>
+                                            </div>
+                                            <div class="portImageSession">
+                                                <label class="portLabel" for="portInput">
+                                                    <div class="inner">드래그하거나 클릭</div>
+                                                </label>
+                                                <input id="portInput" class="portInput" accept="image/*" type="file" required="true" multiple="true" hidden="true">
+                                                <p class="preview-title">preview</p>
+                                                <div class="portPreview" style=""></div>
+                                            </div>
+                                            <div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <select class="form-select userbottom my-4 select_height portCategory" aria-label="Default select example">
+
+                                    </select>
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control portTitle" id="floatingInput" placeholder=" " value="">
+                                        <label for="floatingInput">포트폴리오 제목</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <textarea class="form-control portDetail" id="floatingTextarea" placeholder=" "></textarea>
+                                        <label for="floatingTextarea">포트폴리오 상세</label>
+                                    </div>
+                                    <div class="form-floating">
+                                        <input type="date" name="" class="form-control portUpdate" placeholder="" value="">
+                                        <label for="floatingInput">작성날짜</label>
+                                    </div>
+                                    <div class="userinfo" align="right">
+                                        <button type="button" class="btn btn-outline-secondary" value="취소" onclick="remove_portfolio(this)">취소</button>
+                                        <button type="button" class="btn btn-outline-primary portPostBtn">등록</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="portfolioMain">
+                    </div>
+<!--                    <div id="portfolioParent">-->
+<!--                    </div>-->
+                    <div class="card mb-4 userinfo" id="portfolioAdd">
+                        <div class="card-body" align="center">
+                            <button  type="button" class="btn btn-outline-primary btn-sm" onclick="add_portfolio()">
+                                <i class="bi bi-clipboard-plus"></i> 포트폴리오 추가
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div align="right">
+                <button type="button" class="btn btn-outline-primary" onclick="location.href='/admin/users'">목록</button>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" th:src="@{/js/admin/user-info.js}"></script>
+<script type="text/javascript" th:src="@{/js/admin/portfolio-info.js}"></script>
+<script type="text/javascript" th:src="@{/js/drag_drop_upload.js}"></script>
+<script type="text/javascript" th:src="@{/js/admin/seller-info.js}"></script>
+<script type="text/javascript" th:src="@{/js/admin/seller-specialty.js}"></script>
+<script type="text/javascript" th:src="@{/js/admin/seller-skill.js}"></script>
+<script type="text/javascript" th:src="@{/js/admin/seller-carrer.js}"></script>
+<script type="text/javascript" th:src="@{/js/admin/seller-license.js}"></script>
+<script type="text/javascript" th:src="@{/js/admin/seller-award.js}"></script>
+<div th:replace="admin/fragments/footer :: footer"></div>
+</html>
